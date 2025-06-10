@@ -13,6 +13,11 @@ set -o nounset
 trap 'echo "ERROR at line ${LINENO} (code: $?)" >&2' ERR
 trap 'echo "Interrupted" >&2 ; exit 1' INT
 
+# Check dependencies
+
+command -v alr >/dev/null 2>&1 || { echo >&2 "alr is required but it's not in PATH. Aborting."; exit 1; }
+command -v unbuffer >/dev/null 2>&1 || { echo >&2 "unbuffer (part of expect) is required but it's not in PATH. Aborting."; exit 1; }
+
 # Identify arguments: --force, --skip-build. If given in command line store in vars to pass along to alr at the proper places
 
 force=$([[ " $* " == *" --force "* ]] && echo "--force" || echo "")
