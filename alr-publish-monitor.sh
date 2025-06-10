@@ -37,7 +37,10 @@ fi
 
 # Identify version, which is in the property "version" in the JSON output of
 # alr show
+crate=$(alr --format=JSON show | jq -r '.name')
 version=$(alr --format=JSON show | jq -r '.version')
+
+echo "Publishing release with version $version..."
 
 logfile=alire/publish.log
 
@@ -58,7 +61,7 @@ fi
 PR_line=$(cat $logfile | grep 'for details')
 PR=$(echo $PR_line | sed 's/.*\/pull\/\([0-9]*\).*/\1/')
 
-echo "PR created with number: $PR"
+echo "PR created for $crate=$version with number: $PR"
 
 # Check periodically until the PR checks succeed or fail
 
